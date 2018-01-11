@@ -61,6 +61,7 @@ class App extends Component {
       cards: prevState.cards.concat(cardInfo)
       }));
     }
+    else{alert("User card " +cardInfo.name + " already added!");}
   };
    
   render() {
