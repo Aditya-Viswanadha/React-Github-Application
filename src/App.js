@@ -18,9 +18,10 @@ class Forms extends Component {
     event.preventDefault();
     console.log("Form Submitted", this.state.inputname);
     axios.get(`https://api.github.com/users/${this.state.inputname}`)
-      .then(resp => {this.props.onSubmit(resp.data); 
+      .then(resp => {
+        this.props.onSubmit(resp.data);
+        this.setState({inputname: ''}) 
       });
-      
 };
 
   render(){
@@ -39,22 +40,27 @@ class Forms extends Component {
 const CardList = (props) => {
   return(
     <div>
-      {props.cards.map(card => <Card {...card} />) }
+      {props.cards.map(card => <Card key={card.id} {...card} />) }
     </div>
   );
 };
 
 class App extends Component {
   state = { 
-    cards:[
-      
+    cards:[ 
     ]
   };
 
   addNewCard = (cardInfo) => {
-    this.setState(prevState => ({
+    let flag = 0;
+    for(let i of this.state.cards){
+      if(i.id == cardInfo.id){flag=1;}
+    }
+    if(flag == 0){
+      this.setState(prevState => ({
       cards: prevState.cards.concat(cardInfo)
-    }) );
+      }));
+    }
   };
    
   render() {
